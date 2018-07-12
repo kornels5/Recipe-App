@@ -1,5 +1,5 @@
-import { initializedEditPage } from './view';
-import { removeRecipe, updateRecipe } from './recipes';
+import { initializedEditPage, renderIngredients } from './view';
+import { removeRecipe, updateRecipe, createIngredient } from './recipes';
 
 const removeElement = document.querySelector('#remove-recipe');
 const titleElement = document.querySelector('#recipe-title');
@@ -31,6 +31,13 @@ window.addEventListener('storage', function(e) {
     }
 });
 
-document.querySelector('#add-ingredient').addEventListener('input', function(e){
-    console.log(e.target.value);
-});
+document.querySelector('#new-ingredient').addEventListener('submit', (e) => {
+    const text = e.target.elements.text.value.trim();
+    e.preventDefault();
+    
+    if (text.length > 0) {
+        createIngredient(recipeId, text);
+        renderIngredients(recipeId);
+        //e.target.elements.text.value = ''
+    };
+})

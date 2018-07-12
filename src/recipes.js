@@ -33,6 +33,16 @@ const createRecipe = () => {
     return id;
 }
 
+const createIngredient = (id, name) => {
+    const recipe = recipes.find((recipe) => recipe.id === id);
+    
+    recipe.ingredients.push({
+        available: false,
+        name: name
+    });  
+    saveRecipes();
+}
+
 const removeRecipe = (id) => {
     const recipeIndex = recipes.findIndex((recipe) => {
         return recipe.id === id;
@@ -55,8 +65,8 @@ const updateRecipe = (id, updates) => {
         recipe.title = updates.title;
     }
 
-    if (typeof updates.body === 'string') {
-        recipe.instructions = updates.body;
+    if (typeof updates.instructions === 'string') {
+        recipe.instructions = updates.instructions;
     }
 
     saveRecipes();
@@ -65,4 +75,4 @@ const updateRecipe = (id, updates) => {
 
 recipes = loadRecipes();
 
-export {getRecipes, createRecipe, removeRecipe, updateRecipe, saveRecipes};
+export {getRecipes, createRecipe, removeRecipe, updateRecipe, saveRecipes, createIngredient};

@@ -45,9 +45,9 @@ const renderRecipes = () => {
             recipesEl.appendChild(recipeEl);
         });
     } else {
-        const emptyMessage = document.createElement('p')
-        emptyMessage.textContent = 'No recipes to show'
-        recipesEl.appendChild(emptyMessage)
+        const emptyMessage = document.createElement('p');
+        emptyMessage.textContent = 'No recipes to show';
+        recipesEl.appendChild(emptyMessage);
     }
 }
 
@@ -57,6 +57,8 @@ const initializedEditPage = (recipeId) => {
     const recipes = getRecipes();
     const recipe = recipes.find((recipe) => recipe.id === recipeId);
 
+    renderIngredients(recipeId);
+
     if (!recipe) {
        location.assign('/index.html');
     }
@@ -65,4 +67,40 @@ const initializedEditPage = (recipeId) => {
     recipeInstructions.value = recipe.instructions;
 }
 
-export {generateRecipeDOM, renderRecipes, initializedEditPage};
+const renderIngredients = (recipeId) => {
+    const ingredientsEl = document.querySelector('#ingredients');
+    const recipes = getRecipes();
+    const ingredients = recipes.find(recipe => recipe.id === recipeId).ingredients;
+
+    ingredientsEl.innerHTML = '';
+
+    if(ingredients.length > 0) {
+        ingredients.forEach((ingredient) => {
+            ingredientsEl.appendChild(generateIngredientDOM(ingredient));
+        });
+    } else {
+        const messageEl = document.createElement('p');
+        messageEl.textContent = 'no ingredients';
+        ingredientsEl.appendChild(messageEl);
+    }
+    console.log();
+    
+}
+
+const generateIngredientDOM = (ingredient) => {
+    const ingredientEl = document.createElement('label');
+    const containerEl = document.createElement('div');
+    const checkbox = document.createElement('input');
+    const ingredientName = document.createElement('span');
+    const removeButton = document.createElement('button');
+
+    ingredientName.textContent = ingredient.name;
+
+
+    containerEl.appendChild(ingredientName);
+    ingredientEl.appendChild(containerEl);
+
+    return ingredientEl;
+}
+
+export {generateRecipeDOM, renderRecipes, initializedEditPage, renderIngredients};
