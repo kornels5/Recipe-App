@@ -33,16 +33,6 @@ const createRecipe = () => {
     return id;
 }
 
-const createIngredient = (id, name) => {
-    const recipe = recipes.find((recipe) => recipe.id === id);
-    
-    recipe.ingredients.push({
-        available: false,
-        name: name
-    });  
-    saveRecipes();
-}
-
 const removeRecipe = (id) => {
     const recipeIndex = recipes.findIndex((recipe) => {
         return recipe.id === id;
@@ -73,6 +63,36 @@ const updateRecipe = (id, updates) => {
     return recipe;
 }
 
+const createIngredient = (id, name) => {
+    const recipe = recipes.find((recipe) => recipe.id === id);
+    
+    recipe.ingredients.push({
+        available: false,
+        name: name
+    });  
+    saveRecipes();
+}
+
+const toggleIngredient = (id, name) => {
+    const ingredients = recipes.find(recipe => recipe.id === id).ingredients;
+    const ingredient = ingredients.find(ingredient => ingredient.name === name);
+
+    if (ingredient) {
+        ingredient.available = !ingredient.available;
+        saveRecipes();
+    }
+}
+
+const removeIngredient = (id, name) => {
+    const ingredients = recipes.find(recipe => recipe.id === id).ingredients;
+    const ingredientIndex = ingredients.findIndex(ingredient => ingredient.name === name);
+    console.log(ingredientIndex);
+    if (ingredientIndex > -1) {
+        ingredients.splice(ingredientIndex, 1);
+        saveRecipes();
+    }
+}
+
 recipes = loadRecipes();
 
-export {getRecipes, createRecipe, removeRecipe, updateRecipe, saveRecipes, createIngredient};
+export {getRecipes, createRecipe, removeRecipe, updateRecipe, saveRecipes, createIngredient, toggleIngredient, removeIngredient };
