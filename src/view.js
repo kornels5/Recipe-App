@@ -1,7 +1,5 @@
 import { getFilters } from './filters';
-import { getRecipes, removeRecipe, saveRecipes, toggleIngredient, removeIngredient } from './recipes';
-
-const recipeId = location.hash.substring(1);
+import { getRecipes, removeRecipe, saveRecipes } from './recipes';
 
 const generateRecipeDOM = (recipe) => {
 
@@ -84,7 +82,7 @@ const renderIngredients = (recipeId) => {
         const messageEl = document.createElement('p');
         messageEl.textContent = 'no ingredients';
         ingredientsEl.appendChild(messageEl);
-    }    
+    }
 }
 
 const generateIngredientDOM = (ingredient) => {
@@ -94,24 +92,9 @@ const generateIngredientDOM = (ingredient) => {
     const ingredientName = document.createElement('span');
     const removeButton = document.createElement('button');
 
-    checkbox.setAttribute('type', 'checkbox');
-    checkbox.checked = ingredient.available;
-    checkbox.addEventListener('change', () => {
-        toggleIngredient(recipeId, ingredient.name);
-        renderIngredients(recipeId);
-    });
-
     ingredientName.textContent = ingredient.name;
 
-    removeButton.textContent = 'remove';
-    removeButton.addEventListener('click', () => {
-        removeIngredient(recipeId, ingredient.name);
-        renderIngredients(recipeId);
-    });
-
-    containerEl.appendChild(checkbox);
     containerEl.appendChild(ingredientName);
-    containerEl.appendChild(removeButton);
     ingredientEl.appendChild(containerEl);
 
     return ingredientEl;
