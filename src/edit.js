@@ -38,6 +38,6 @@ document.querySelector('#new-ingredient').addEventListener('submit', (e) => {
     if (text.length > 0) {
         createIngredient(recipeId, text);
         renderIngredients(recipeId);
-        //e.target.elements.text.value = ''
+        e.target.elements.text.value = ''
     };
-})
+});
